@@ -1,0 +1,1 @@
+para rodar terminal: npx expo start

@@ -1,24 +1,18 @@
+// _layout.tsx
 import { Tabs } from "expo-router";
 import { Image } from "react-native";
+import styles from "../../estilos/_stylesPadrao";
 
-export default function HomeLayout() {
+export default function Layout() {
   return (
-    <Tabs
-      screenOptions={{
-        headerShown: false, // esconde o header se quiser
-      }}
-    >
+    <Tabs screenOptions={{ headerShown: false }}>
       <Tabs.Screen
         name="home"
         options={{
-          tabBarIcon: ({ focused }) => (
+          tabBarIcon: () => (
             <Image
               source={require("../../assets/images/menuHome.png")}
-              style={{
-                width: 24,
-                height: 24,
-                resizeMode: "contain",
-              }}
+              style={styles.iconeMenu}
             />
           ),
         }}
@@ -26,14 +20,10 @@ export default function HomeLayout() {
       <Tabs.Screen
         name="categorias"
         options={{
-          tabBarIcon: ({ focused }) => (
+          tabBarIcon: () => (
             <Image
               source={require("../../assets/images/menuCategorias.png")}
-              style={{
-                width: 24,
-                height: 24,
-                resizeMode: "contain",
-              }}
+              style={styles.iconeMenu}
             />
           ),
         }}
@@ -41,14 +31,10 @@ export default function HomeLayout() {
       <Tabs.Screen
         name="historico"
         options={{
-          tabBarIcon: ({ focused }) => (
+          tabBarIcon: () => (
             <Image
               source={require("../../assets/images/menuHistorico.png")}
-              style={{
-                width: 24,
-                height: 24,
-                resizeMode: "contain",
-              }}
+              style={styles.iconeMenu}
             />
           ),
         }}
@@ -56,14 +42,10 @@ export default function HomeLayout() {
       <Tabs.Screen
         name="carrinho"
         options={{
-          tabBarIcon: ({ focused }) => (
+          tabBarIcon: () => (
             <Image
               source={require("../../assets/images/menuCarrinho.png")}
-              style={{
-                width: 24,
-                height: 24,
-                resizeMode: "contain",
-              }}
+              style={styles.iconeMenu}
             />
           ),
         }}
@@ -71,14 +53,10 @@ export default function HomeLayout() {
       <Tabs.Screen
         name="usuario"
         options={{
-          tabBarIcon: ({ focused }) => (
+          tabBarIcon: () => (
             <Image
               source={require("../../assets/images/menuUsuario.png")}
-              style={{
-                width: 24,
-                height: 24,
-                resizeMode: "contain",
-              }}
+              style={styles.iconeMenu}
             />
           ),
         }}

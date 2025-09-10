@@ -1,6 +1,10 @@
+import { insert } from '@/services/database/queries';
+import type { User } from '@/services/types/users';
+import bcrypt from "bcryptjs";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+
 
 export default function Cadastro() {
   const [nome, setNome] = useState<string>("");
@@ -10,34 +14,52 @@ export default function Cadastro() {
   const [confirmar, setConfirmar] = useState<string>("");
   const router = useRouter();
 
-  const handleCadastro = () => {
+  const handleCadastro = async () => {
     if (senha !== confirmar) {
       alert("Senhas não coincidem!");
       return;
     }
-    alert("Cadastro realizado com sucesso!");
-    router.back();
-  };
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Cadastro</Text>
+    // Gera hash da senha
+    const salt = bcrypt.genSaltSync(10); 
+    const hashedPassword = bcrypt.hashSync(senha, salt);
 
-      <TextInput style={styles.input} placeholder="Nome Completo" placeholderTextColor="#999" value={nome} onChangeText={setNome} />
-      <TextInput style={styles.input} placeholder="Matrícula" placeholderTextColor="#999" value={matricula} onChangeText={setMatricula} />
-      <TextInput style={styles.input} placeholder="E-mail" placeholderTextColor="#999" value={email} onChangeText={setEmail} />
-      <TextInput style={styles.input} placeholder="Senha" placeholderTextColor="#999" value={senha} onChangeText={setSenha} secureTextEntry />
-      <TextInput style={styles.input} placeholder="Confirmar Senha" placeholderTextColor="#999" value={confirmar} onChangeText={setConfirmar} secureTextEntry />
+    const newUser: Omit<User, "id"> = {
+      name: nome,
+      email: email,
+      password: hashedPassword,
+      registration: Number(matricula), 
+    };
 
-      <TouchableOpacity style={styles.button} onPress={handleCadastro}>
-        <Text style={styles.buttonText}>Confirmar</Text>
-      </TouchableOpacity>
+    try {
+      await insert<User>("users", newUser);
+      alert("Cadastro realizado com sucesso!");
+      router.back();
+    } catch (error) {
+      console.error("Erro ao cadastrar usuário:", error);
+      alert("Erro ao cadastrar usuário. Tente novamente.");
+    }
+  }
 
-      <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-        <Text style={styles.backText}>← Voltar</Text>
-      </TouchableOpacity>
-    </View>
-  );
+return (
+  <View style={styles.container}>
+    <Text style={styles.title}>Cadastro</Text>
+
+    <TextInput style={styles.input} placeholder="Nome Completo" placeholderTextColor="#999" value={nome} onChangeText={setNome} />
+    <TextInput style={styles.input} placeholder="Matrícula" placeholderTextColor="#999" value={matricula?.toString() ?? ""} onChangeText={setMatricula} keyboardType="numeric"/>
+    <TextInput style={styles.input} placeholder="E-mail" placeholderTextColor="#999" value={email} onChangeText={setEmail} />
+    <TextInput style={styles.input} placeholder="Senha" placeholderTextColor="#999" value={senha} onChangeText={setSenha} secureTextEntry />
+    <TextInput style={styles.input} placeholder="Confirmar Senha" placeholderTextColor="#999" value={confirmar} onChangeText={setConfirmar} secureTextEntry />
+
+    <TouchableOpacity style={styles.button} onPress={handleCadastro}>
+      <Text style={styles.buttonText}>Confirmar</Text>
+    </TouchableOpacity>
+
+    <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+      <Text style={styles.backText}>← Voltar</Text>
+    </TouchableOpacity>
+  </View>
+);
 }
 
 const styles = StyleSheet.create({

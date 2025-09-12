@@ -1,4 +1,5 @@
 import { insert } from '@/services/database/queries';
+import { getByEmail } from '@/services/database/userQueries';
 import type { User } from '@/services/types/users';
 import bcrypt from "bcryptjs";
 import { useRouter } from "expo-router";
@@ -32,6 +33,13 @@ export default function Cadastro() {
     };
 
     try {
+      const existingUser = await getByEmail<User>("users", newUser.email);
+
+      if (existingUser) {
+        alert("Já existe um usuário cadastrado com esse email.");
+        return; 
+      }
+
       await insert<User>("users", newUser);
       alert("Cadastro realizado com sucesso!");
       router.back();

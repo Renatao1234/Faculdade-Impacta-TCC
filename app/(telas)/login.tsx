@@ -11,23 +11,24 @@ export default function LoginScreen() {
   const router = useRouter();
   const [users, setUsers] = useState<User[]>([]);
 
-  async function seed() {
-    const { data, error } = await supabase
-      .from("users")
-      .insert([
-        { name: "Rodrigo", email: "rodrigo@email.com", password: "1234" }
-      ])
-      .select();
+  // async function seed() {
+  //   const { data, error } = await supabase
+  //     .from("users")
+  //     .insert([
+  //       { name: "Rodrigo", email: "rodrigo@email.com", password: "1234" }
+  //     ])
+  //     .select();
 
-    console.log("Inserido:", data, "Erro:", error);
-  }
-  seed();
+  //   console.log("Inserido:", data, "Erro:", error);
+  // }
+  // seed();
 
   useEffect(() => {
     async function testeBanco() {
       const { data, error } = await supabase.from("users").select("*");
       console.log("Data:", data);
       console.log("Error:", error);
+      if (data) setUsers(data);
     }
     testeBanco();
   }, []);

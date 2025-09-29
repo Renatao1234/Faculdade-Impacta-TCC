@@ -1,1 +1,20 @@
-para rodar terminal: npx expo start
+npx expo start
+para rodar terminal
+
+git status
+para vers status do arquivo na branch - vermelho não foi adicionado, verde foi adicionado
+
+git add -A 
+Adiciona todos os arquivos na branch para commit
+
+git add NOME_DO_ARQUIVO
+Adiciona só o arquivo em questão
+
+git commit -m "MENSAGEM"
+Faz commit da branch com uma mensagem que você escreve
+
+git push origin NOME_DA_BRANCH
+Atualiza sua branch no git hub
+
+git pull 
+Atualiza sua máquina com base nos arquivos já jogados na main

@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
-import styles from "../../estilos/_stylesPadrao"; // importa os estilos
+import estilos from "../../estilos/_stylesPadrao"; // importa os estilos
 
 export default function LoginScreen() {
   const [username, setUsername] = useState<string>("");
@@ -18,18 +18,18 @@ export default function LoginScreen() {
   };
 
   return (
-    <View style={styles.containerPrincipal}>
-      <Text style={styles.titulo}>Faça login</Text>
+    <View style={estilos.containerPrincipal}>
+      <Text style={estilos.titulo}>Faça login</Text>
 
       <TextInput
-        style={styles.input}
+        style={estilos.input}
         placeholder="E-mail - admin" //Apagar admin
         placeholderTextColor="#999"
         onChangeText={setUsername}
         value={username}
       />
       <TextInput
-        style={styles.input}
+        style={estilos.input}
         placeholder="Senha - 1234" //Apagar senha
         placeholderTextColor="#999"
         onChangeText={setPassword}
@@ -37,16 +37,16 @@ export default function LoginScreen() {
         value={password}  
       />
 
-      <TouchableOpacity style={styles.botaoConfirmar} onPress={handleLogin}>
-        <Text style={styles.textoBotaoConfirmar}>Confirmar</Text>
+      <TouchableOpacity style={estilos.botaoConfirmar} onPress={handleLogin}>
+        <Text style={estilos.textoBotaoConfirmar}>Confirmar</Text>
       </TouchableOpacity>
-      <View style={styles.containerLinks}>
-        <View style={styles.links}>
+      <View style={estilos.containerLinks}>
+        <View style={estilos.links}>
           <TouchableOpacity onPress={() => router.push("/cadastro")}>
-            <Text style={[styles.textoLink, { textAlign: "left" }]}>Criar Conta</Text>
+            <Text style={[estilos.textoLink, { textAlign: "left" }]}>Criar Conta</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => router.push("/recuperar")}>
-            <Text style={styles.textoLink}>Esqueci a senha</Text>
+            <Text style={estilos.textoLink}>Esqueci a senha</Text>
           </TouchableOpacity>
         </View>
       </View>

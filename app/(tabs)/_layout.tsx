@@ -1,7 +1,7 @@
 // _layout.tsx
 import { Tabs } from "expo-router";
 import { Image } from "react-native";
-import styles from "../../estilos/_stylesPadrao";
+import estilos from "../../estilos/_stylesPadrao";
 
 export default function Layout() {
   return (
@@ -12,7 +12,7 @@ export default function Layout() {
           tabBarIcon: () => (
             <Image
               source={require("../../assets/images/menuHome.png")}
-              style={styles.iconeMenu}
+              style={estilos.iconeMenu}
             />
           ),
         }}
@@ -23,7 +23,7 @@ export default function Layout() {
           tabBarIcon: () => (
             <Image
               source={require("../../assets/images/menuCategorias.png")}
-              style={styles.iconeMenu}
+              style={estilos.iconeMenu}
             />
           ),
         }}
@@ -34,7 +34,7 @@ export default function Layout() {
           tabBarIcon: () => (
             <Image
               source={require("../../assets/images/menuHistorico.png")}
-              style={styles.iconeMenu}
+              style={estilos.iconeMenu}
             />
           ),
         }}
@@ -45,7 +45,7 @@ export default function Layout() {
           tabBarIcon: () => (
             <Image
               source={require("../../assets/images/menuCarrinho.png")}
-              style={styles.iconeMenu}
+              style={estilos.iconeMenu}
             />
           ),
         }}
@@ -56,9 +56,15 @@ export default function Layout() {
           tabBarIcon: () => (
             <Image
               source={require("../../assets/images/menuUsuario.png")}
-              style={styles.iconeMenu}
+              style={estilos.iconeMenu}
             />
           ),
+        }}
+      />
+      <Tabs.Screen
+        name="componentes"
+        options={{
+          href: null, // não mostra no menu inferior
         }}
       />
     </Tabs>

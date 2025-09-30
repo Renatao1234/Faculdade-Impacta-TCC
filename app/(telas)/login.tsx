@@ -2,17 +2,33 @@ import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
 import estilos from "../../estilos/_stylesPadrao"; // importa os estilos
+// import { supabase } from "@/services/database/supabaseClient";
+import { existingUser } from '@/services/database/userQueries';
+import type { User } from '@/services/types/users';
 
 export default function LoginScreen() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
+  // const [users, setUsers] = useState<User[]>([]);
 
-  const handleLogin = () => {
-    if (username === "admin" && password === "1234") {
+  // useEffect(() => {
+  //   async function testeBanco() {
+  //     const { data, error } = await supabase.from("users").select("*");
+  //     console.log("Data:", data);
+  //     console.log("Error:", error);
+  //     if (data) setUsers(data);
+  //   }
+  //   testeBanco();
+  // }, []);
+  // teste@gmail.com
+
+  const handleLogin = async () => {
+    const exist = await existingUser<User>(username,password);
+    
+    if (exist) {
       router.replace("/home");
     } else {
-      //alert("Usuário ou senha inválidos");
       Alert.alert("Erro", "Usuário ou senha inválidos");
     }
   };
@@ -35,6 +51,8 @@ export default function LoginScreen() {
         onChangeText={setPassword}
         secureTextEntry
         value={password}  
+        returnKeyType="done"
+        onSubmitEditing={handleLogin}
       />
 
       <TouchableOpacity style={estilos.botaoConfirmar} onPress={handleLogin}>
@@ -53,3 +71,7 @@ export default function LoginScreen() {
     </View>
   );
 }
+{/* <Text > Usuarios no banco:</Text>
+      {users.map((user: any) => (
+        <Text key={user.id}>{user.password}</Text>
+      ))} */}

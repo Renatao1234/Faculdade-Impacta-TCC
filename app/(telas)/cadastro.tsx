@@ -1,3 +1,5 @@
+import { getByEmail, insertUser } from '@/services/database/userQueries';
+import type { User } from '@/services/types/users';
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
@@ -11,14 +13,33 @@ export default function Cadastro() {
   const [confirmar, setConfirmar] = useState<string>("");
   const router = useRouter();
 
-  const handleCadastro = () => {
+  const handleCadastro = async () => {
     if (senha !== confirmar) {
       alert("Senhas não coincidem!");
       return;
+    }    
+
+    const newUser: Omit<User, "id"> = {
+      name: nome,
+      email: email,
+      password: senha,
+      registration: Number(matricula), 
+    };
+
+    try {
+      const exist = await getByEmail<User>(newUser.email);
+
+      if (exist) {
+        alert("Já existe um usuário cadastrado com esse email.");
+        return; 
+      }
+      await insertUser(newUser);
+      alert("Cadastro realizado com sucesso!");
+      router.back();
+    } catch (error) {
+      alert("Erro ao cadastrar usuário. Tente novamente.");
     }
-    alert("Cadastro realizado com sucesso!");
-    router.back();
-  };
+  }
 
   return (
     <View style={estilos.container}>

@@ -1,10 +1,14 @@
+import { UserContext } from "@/services/contexts/userContext";
 import { useRouter } from "expo-router";
-import React from "react";
+import React, { useContext } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import estilos from "../../estilos/_stylesPadrao"; // importa os estilos
 
 export default function Home() {
   const router = useRouter();
+  const { user } = useContext(UserContext);
+  
+  console.log("Usuário vindo do contexto:", user);
 
   return (
     <View style={estilos.fundo}>
@@ -80,6 +84,19 @@ export default function Home() {
           />
           <Text style={estilos.categoriaTexto_home}>Carrinho</Text>
         </TouchableOpacity>
+      </View>
+      {/* Mostrando dados do usuário */}
+      <View style={{ padding: 20 }}>
+        <Text style={{ fontSize: 16, fontWeight: "bold" }}>Dados do usuário:</Text>
+        {user ? (
+          <>
+            <Text>ID: {user.id}</Text>
+            <Text>Nome: {user.name}</Text>
+            <Text>Email: {user.email}</Text>
+          </>
+        ) : (
+          <Text>Nenhum usuário logado</Text>
+        )}
       </View>
     </View>
   );

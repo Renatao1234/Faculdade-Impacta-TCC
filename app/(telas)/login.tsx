@@ -3,10 +3,13 @@ import React, { useState } from "react";
 import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
 import estilos from "../../estilos/_stylesPadrao"; // importa os estilos
 // import { supabase } from "@/services/database/supabaseClient";
+import { UserContext } from "@/services/contexts/userContext";
 import { existingUser } from '@/services/database/userQueries';
 import type { User } from '@/services/types/users';
+import { useContext } from "react";
 
 export default function LoginScreen() {
+  const { setUser } = useContext(UserContext);
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
@@ -27,6 +30,7 @@ export default function LoginScreen() {
     const exist = await existingUser<User>(username,password);
     
     if (exist) {
+      await setUser(exist);
       router.replace("/home");
     } else {
       Alert.alert("Erro", "Usuário ou senha inválidos");

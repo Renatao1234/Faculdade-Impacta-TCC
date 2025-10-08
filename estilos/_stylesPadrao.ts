@@ -88,12 +88,15 @@ const styles = StyleSheet.create({
   },
   containerPrincipal: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",     // centraliza horizontalmente
-    padding: 20,
     backgroundColor: "#0A1F44",
-    width: "100%",    // garante que ocupe toda a largura da tela
-    height: "100%",   // garante que ocupe toda a altura da tela
+    padding: 20,
+    // flex: 1,
+    // justifyContent: "center",
+    // alignItems: "center",     // centraliza horizontalmente
+    // padding: 20,
+    // backgroundColor: "#0A1F44",
+    // width: "100%",    // garante que ocupe toda a largura da tela
+    // height: "100%",   // garante que ocupe toda a altura da tela
   },
     containerLinks: {
     padding: 20,

@@ -67,6 +67,18 @@ export default function Layout() {
           href: null, // não mostra no menu inferior
         }}
       />
+      <Tabs.Screen
+        name="dados_cadastrais"
+        options={{
+          href: null, // não mostra no menu inferior
+        }}
+      />
+      <Tabs.Screen
+        name="redefinir_senha"
+        options={{
+          href: null, // não mostra no menu inferior
+        }}
+      />
     </Tabs>
   );
 }

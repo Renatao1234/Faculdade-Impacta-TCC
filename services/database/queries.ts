@@ -19,7 +19,7 @@ export async function insert<T>(table: string, values: Partial<T>): Promise<T> {
 }
 
 export async function update<T>(table: string, id: number, values: Partial<T>): Promise<T> {
-  const { data, error } = await supabase.from(table).update(values).eq("id", id).select().single();
+  const { data, error } = await supabase.from(table).update(values).eq("id", id).select("id").maybeSingle();
   if (error) throw error;
   return data as T;
 }

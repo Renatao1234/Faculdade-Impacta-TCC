@@ -1,9 +1,17 @@
+import { UserContext } from "@/services/contexts/userContext";
 import { useRouter } from "expo-router";
+import { useContext } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import estilos from "../../estilos/_stylesPadrao"; // importa os estilos
 
 export default function Usuario() {
   const router = useRouter();
+  const { logout } = useContext(UserContext);
+
+  const handleLogout = async () => {
+    await logout();
+    router.replace("/login")
+  }
 
   return (
     <View style={estilos.containerPrincipal}>
@@ -32,7 +40,7 @@ export default function Usuario() {
 
       <TouchableOpacity
         style={estilos.botaoConfirmar}
-        onPress={() => router.replace("/home")} // exemplo: voltar para login
+        onPress={handleLogout} // exemplo: voltar para login
       >
         <Text style={estilos.textoBotaoConfirmar}>Sair</Text>
       </TouchableOpacity>

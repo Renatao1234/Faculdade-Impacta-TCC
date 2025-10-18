@@ -5,6 +5,7 @@ interface User{
     id: number;
     email: string;
     name: string;
+    registration:number | undefined;
 }
 
 interface UserContextType{

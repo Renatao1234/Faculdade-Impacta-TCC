@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   categoria: {
     backgroundColor: "#fff",
     borderRadius: 10,
-    width: "90%",
+    width: "30%",
     aspectRatio: 1,
     justifyContent: "center",
     alignItems: "center",
@@ -172,8 +172,8 @@ const styles = StyleSheet.create({
     color: "#333",
   },
     categoriaSemImagem: {
-    width: "100%",
-    height: "100%",
+    width: "20%",
+    height: "20%",
     borderRadius: 10,
     backgroundColor: "#ddd",
     justifyContent: "center",

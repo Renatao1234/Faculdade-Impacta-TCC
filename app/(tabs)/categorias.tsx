@@ -1,6 +1,8 @@
+import { getAll } from "@/services/database/queries";
+import { Categorie } from "@/services/types/categories";
 import { router } from "expo-router";
-import React from "react";
-import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import estilos from "../../estilos/_stylesPadrao";
 
 interface Categoria {
@@ -9,13 +11,18 @@ interface Categoria {
 }
 {/*Exemplos de categoria*/}
 export default function Categorias() {
-  const categorias: Categoria[] = [
-    { nome: "Eletrônicos", imagem: "https://via.placeholder.com/150/0000FF/FFFFFF?text=Eletrônicos" },
-    { nome: "Roupas", imagem: "https://via.placeholder.com/150/FF0000/FFFFFF?text=Roupas" },
-    { nome: "Livros" },
-    { nome: "Brinquedos", imagem: "https://via.placeholder.com/150/00FF00/FFFFFF?text=Brinquedos" },
-    { nome: "Esportes" },
-  ];
+
+  const [categoreisAll, setCategories] = useState<Categorie[]>([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const data = await getAll("categories");
+      // console.log("Dados retornados do banco:", data); // <-- Adicione isto
+
+      if (data) setCategories(data as Categorie[]);
+    }
+    fetchData();
+  }, []);
 
   return (
     <ScrollView
@@ -24,30 +31,31 @@ export default function Categorias() {
     >
       <Text style={estilos.titulo}>Categorias</Text>
 
-      {categorias.map((categoria, indice) => (
+      {categoreisAll.map((categoria, indice) => (
         <TouchableOpacity
           key={indice}
           style={estilos.categoria}
           onPress={() =>
             router.push({
               pathname: "/componentes",
-              params: { nome: categoria.nome, imagem: categoria.imagem },
+              params: { nome: categoria.name, id: categoria.id.toString() },
             })
           }
         >
-          {categoria.imagem ? (
+          <View style={estilos.categoriaSemImagem}>
+              <Text style={estilos.categoriaSemImagemTexto}>
+                {categoria.name}
+              </Text>
+            </View>
+          {/* {categoria.description ? (
             <Image
-              source={{ uri: categoria.imagem }}
+              source={{ uri: categoria.description }}
               style={estilos.imagemCategoria}
               resizeMode="contain"
             />
           ) : (
-            <View style={estilos.categoriaSemImagem}>
-              <Text style={estilos.categoriaSemImagemTexto}>
-                {categoria.nome}
-              </Text>
-            </View>
-          )}
+            
+          )} */}
         </TouchableOpacity>
       ))}
     </ScrollView>

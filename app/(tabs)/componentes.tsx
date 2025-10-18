@@ -1,5 +1,7 @@
-import { Ionicons } from "@expo/vector-icons";
-import React, { useState } from "react";
+import { getAllProductsByCategorie } from "@/services/database/productQueries";
+import { Products } from "@/services/types/products";
+import { useLocalSearchParams } from "expo-router";
+import React, { useEffect, useState } from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import estilos from "../../estilos/_stylesPadrao";
 
@@ -10,34 +12,47 @@ interface Item {
 }
 
 export default function Componentes() {
-  const [itens, setItens] = useState<Item[]>([
-    { id: 1, nome: "Item 1", qtd: 1 },
-    { id: 2, nome: "Item 2", qtd: 1 },
-    { id: 3, nome: "Item 3", qtd: 2 },
-    { id: 4, nome: "Item 4", qtd: 1 },
-  ]);
+  const { nome, id } = useLocalSearchParams<{
+    nome?: string;
+    id?: string;
+  }>();
 
-  const aumentarQtd = (id: number) => {
-    setItens((lista) =>
-      lista.map((item) =>
-        item.id === id ? { ...item, qtd: item.qtd + 1 } : item
-      )
-    );
-  };
+  const [productsAll, setProducts] = useState<Products[]>([]);
 
-  const diminuirQtd = (id: number) => {
-    setItens((lista) =>
-      lista.map((item) =>
-        item.id === id && item.qtd > 0
-          ? { ...item, qtd: item.qtd - 1 }
-          : item
-      )
-    );
-  };
+  useEffect(() => {
+    async function fetchData() {
+      if (id) {
+        const data = await getAllProductsByCategorie(id);
+        console.log("Dados retornados do banco:", data);
 
-  const removerItem = (id: number) => {
-    setItens((lista) => lista.filter((item) => item.id !== id));
-  };
+        if (data) setProducts(data as Products[]);
+      }
+    }
+
+    fetchData();
+  }, [id]);
+
+  // const aumentarQtd = (id: number) => {
+  //   setItens((lista) =>
+  //     lista.map((item) =>
+  //       item.id === id ? { ...item, qtd: item.qtd + 1 } : item
+  //     )
+  //   );
+  // };
+
+  // const diminuirQtd = (id: number) => {
+  //   setItens((lista) =>
+  //     lista.map((item) =>
+  //       item.id === id && item.qtd > 0
+  //         ? { ...item, qtd: item.qtd - 1 }
+  //         : item
+  //     )
+  //   );
+  // };
+
+  // const removerItem = (id: number) => {
+  //   setItens((lista) => lista.filter((item) => item.id !== id));
+  // };
 
   return (
     <ScrollView
@@ -46,29 +61,26 @@ export default function Componentes() {
     >
       <Text style={estilos.titulo}>Componentes</Text>
 
-      {itens.map((item) => (
+      {productsAll.map((item) => (
         <View key={item.id} style={estilos.itemLista}>
           <View style={estilos.itemEsquerda}>
-            <Text style={estilos.itemTexto}>{item.nome}</Text>
+            <Text style={estilos.itemTexto}>{item.name}</Text>
           </View>
 
           <View style={estilos.botoesMaisMenosLixeira}>
-            <Text style={estilos.itemQuantidade}>Qtd: {item.qtd}</Text>
+            <Text style={estilos.itemQuantidade}>Qtd: {item.category_id}</Text>
 
-            {/* Botão - */}
-            <TouchableOpacity onPress={() => diminuirQtd(item.id)}>
+            {/* <TouchableOpacity onPress={() => diminuirQtd(item.id)}>
               <Ionicons name="remove-circle" size={22} color="gray" />
             </TouchableOpacity>
 
-            {/* Botão + */}
             <TouchableOpacity onPress={() => aumentarQtd(item.id)}>
               <Ionicons name="add-circle" size={22} color="gray" />
             </TouchableOpacity>
 
-            {/* Botão Lixeira */}
             <TouchableOpacity onPress={() => removerItem(item.id)}>
               <Ionicons name="trash" size={22} color="red" />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
       ))}

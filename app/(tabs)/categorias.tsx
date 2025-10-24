@@ -1,5 +1,5 @@
 import { getAll } from "@/services/database/queries";
-import { Categorie } from "@/services/types/categories";
+import { Categories } from "@/services/types/categories";
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
@@ -12,14 +12,14 @@ interface Categoria {
 {/*Exemplos de categoria*/}
 export default function Categorias() {
 
-  const [categoreisAll, setCategories] = useState<Categorie[]>([]);
+  const [categoreisAll, setCategories] = useState<Categories[]>([]);
 
   useEffect(() => {
     async function fetchData() {
       const data = await getAll("categories");
       // console.log("Dados retornados do banco:", data); // <-- Adicione isto
 
-      if (data) setCategories(data as Categorie[]);
+      if (data) setCategories(data as Categories[]);
     }
     fetchData();
   }, []);

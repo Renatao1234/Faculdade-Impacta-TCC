@@ -32,7 +32,6 @@ export default function Redefinir_senha() {
     }
 
     Alert.alert("Sucesso", "Senha redefinida com sucesso!");
-    // aqui você pode chamar API ou lógica real
   }
 
   const handleUpdatePassword = async () => {

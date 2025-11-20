@@ -1,50 +1,83 @@
-# Welcome to your Expo app 👋
+# 📱 Aplicativo Mobile para Gestão e Solitação de Componentes Laboratoriais
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+### Faculdade Impacta – Trabalho de Conclusão de Curso
 
-## Get started
+Este aplicativo tem como objetivo automatizar o controle de estoque e empréstimo de equipamentos utilizados nos laboratórios da Faculdade Impacta Tecnologia.
+Desenvolvido em React Native com Expo e estruturado para ser simples, acessível e eficiente, o sistema facilita o empréstimos e devoluções de itens, eliminando falhas comuns do processo manual.
 
-1. Install dependencies
+## 🚀 Funcionalidades Principais
 
-   ```bash
-   npm install
-   ```
+### 📦 Controle de Estoque
+* Consulta completa e rápida
+* Relatório de Controle
+* Atualização do estoque automaticamente após empréstimos/devoluções
 
-2. Start the app
+### 🔄 Gerenciamento de Empréstimos
+* Registrar novos empréstimos
+* Detalhar item, usuário e datas
+* Acompanhar devoluções e pendências
 
-   ```bash
-   npx expo start
-   ```
+### 👤 Autenticação do Usuário
+* Tela de login
+* Armazenamento de sessão do usuário
 
-In the output, you'll find options to open the app in a
+### 🎨 Interface Intuitiva
+* UI simples e direta
+* Navegação fluida
+* Foco em usabilidade (ISO 9241-11 + princípios de Krug)
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## 🛠️ Tecnologias Utilizadas
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+| **Tecnologia** | **Tinalidade** |
+| ----------------------- | -------------------------------- |
+| **React Native (Expo)** | Interface mobile multiplataforma |
+| **TypeScript**          | Tipagem estática e segurança     |
+| **React Navigation**    | Navegação entre telas            |
+| **Context API** | Estado global da aplicação       |
+| **AsyncStorage**        | Persistência local               |
+| **Expo Router**         | Roteamento baseado em arquivos   |
 
-## Get a fresh project
 
-When you're ready, run:
+## 📁 Estrutura do Projeto
 
 ```bash
-npm run reset-project
+Faculdade-Impacta-TCC/
+│
+├── app/                 # Telas, navegação e lógica de rotas (Expo Router)
+├── assets/              # Ícones, imagens, logos e mídias
+├── components/          # Componentes reutilizáveis da interface
+├── constants/           # Configurações globais, cores e padrões
+├── hooks/               # Hooks customizados (autenticação, dados, etc.)
+├── services/            # Lógica e comunicação com APIs
+├── styles/              # Estilos globais
+├── utils/               # Funções auxiliares
+│
+├── .env                 # Variáveis de ambiente
+├── package.json         # Dependências e scripts
+├── tsconfig.json        # Configuração do TypeScript
+└── README.md            # Documentação do projeto  
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
 
-## Learn more
+## 📚 Sobre o TCC
 
-To learn more about developing your project with Expo, look at the following resources:
+O projeto integra o Trabalho de Conclusão de Curso e aborda:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+* Problemas do controle manual atual
+* Implementação de solução mobile para gestão de estoque
+* Avaliação da usabilidade com base na ISO 9241-11 (2018)
+* Aplicação de princípios de clareza e navegabilidade de Steve Krug (2014)
 
-## Join the community
 
-Join our community of developers creating universal apps.
+## 👨‍💻 Autores
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- [Gabriel Tonon Yoshida](https://github.com/Renatao1234/Faculdade-Impacta-TCC)
+- [Juliana Rocha de Oliveira](https://github.com/Renatao1234/Faculdade-Impacta-TCC)
+- [Renato Nascimento da Silva](https://github.com/Renatao1234/Faculdade-Impacta-TCC)
+- [Rodrigo Nuciatelli Baba](https://www.linkedin.com/in/rodrigobaba/)
+
+
+## 🎓 Curso
+Ciências da Computação
+
+<img src="assets/images/logoreadme.png" width="150"/>

@@ -88,3 +88,38 @@ export async function decrementOrRemoveCart(userId: number, productId: number) {
         return null;
     }
 }
+
+export async function removeItemOfCart(userId: number, productId: number) {
+    try {
+        const existingItem = await getProductOfUser<Carts>(userId, productId);
+
+        if (existingItem) {
+            try {
+                return await remove("carts", existingItem.id);
+            } catch (error) {
+                console.error("Erro em deletar toda quantidade de um registro do carrinho:", error);
+                return null;
+            }
+        }
+    } catch (err) {
+        console.error("Erro em getProductOfUser (all):", err);
+        return null;
+    }
+}
+
+export async function removeAllItensOfCart(userId: number) {
+    try {
+        const items = await getAllProductOfUser<Carts>(userId);
+
+        if (!items || items.length === 0) return null;
+
+        const results = await Promise.all(
+            items.map((item) => remove("carts", item.id))
+        );
+
+        return results;
+    } catch (err) {
+        console.error("Erro ao remover todos os itens do carrinho:", err);
+        return null;
+    }
+}

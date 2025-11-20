@@ -1,7 +1,23 @@
 import { Products } from "../types/products";
+import { ProductWithCategory } from "../types/productWithCategory";
 import { getAll, getById, update } from "./queries";
 import { supabase } from "./supabaseClient";
 
+export async function getAllProducts<T>(): Promise<ProductWithCategory[] | null> {
+  const { data, error } = await supabase
+    .from("products")
+    .select(`
+      *,
+      categories (
+        name
+      )
+    `)
+    .eq("status_id", 4)
+    .order("category_id", { ascending: true });
+
+  if (error) throw error;
+  return data;
+}
 
 export async function getAllProductsByCategorie<T>(id: string): Promise<T[] | null> {
   const { data, error } = await supabase

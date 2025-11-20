@@ -1,11 +1,12 @@
 import { UserContext } from "@/services/contexts/userContext";
 import { getById } from "@/services/database/queries";
 import { existingUser, updatePassword } from "@/services/database/userQueries";
-import type { User } from '@/services/types/users';
+import type { Users } from '@/services/types/users';
+import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useContext, useState } from "react";
 import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
-import estilos from "../../estilos/_stylesPadrao"; // importa os estilos
+import styles from "../../styles/_stylesPadrao"; // importa os styles
 
 
 export default function Redefinir_senha() {
@@ -32,71 +33,75 @@ export default function Redefinir_senha() {
     }
 
     Alert.alert("Sucesso", "Senha redefinida com sucesso!");
-    // aqui você pode chamar API ou lógica real
   }
 
   const handleUpdatePassword = async () => {
-    if(user.user?.id) {
-      const teste = await getById<User>("users",user.user?.id);
+    if (user.user?.id) {
+      const teste = await getById<Users>("users", user.user?.id);
       console.log("Puxando pelo id: ", teste);
     }
 
-    if (user.user?.email){
-      const exist = await existingUser<User>(user.user?.email, old_password);
+    if (user.user?.email) {
+      const exist = await existingUser<Users>(user.user?.email, old_password);
 
       if (exist) {
         validar_senha();
-        const success = await updatePassword<User>(user.user.id, new_password);
-        if(success){
+        const success = await updatePassword<Users>(user.user.id, new_password);
+        if (success) {
           Alert.alert("Erro", "Senha alterada com sucesso!");
           router.replace("/home");
-        } else{
+        } else {
           Alert.alert("Erro", "Erro em alterar senha!");
         }
-        
+
       } else {
         Alert.alert("Erro", "Usuário ou senha inválidos");
       }
     } else {
       Alert.alert("Erro", "Senha Antiga inválida");
-    }    
+    }
   };
 
   return (
-    <View style={estilos.containerPrincipal}>
-      <Text style={estilos.titulo}>Redefinir Senha</Text>
-
-      <TextInput
-        style={estilos.input}
-        placeholder="Senha Antiga"
-        placeholderTextColor="#999"
-        secureTextEntry
-        value={old_password}
-        onChangeText={setOldPassword}
-      />
-
-      <TextInput
-        style={estilos.input}
-        placeholder="Nova Senha"
-        placeholderTextColor="#999"
-        secureTextEntry
-        value={new_password}
-        onChangeText={setNewPassword}
-      />
-
-      <TextInput
-        style={estilos.input}
-        placeholder="Confirmar Nova Senha"
-        placeholderTextColor="#999"
-        secureTextEntry
-        value={confirm_password}
-        onChangeText={setConfirmPassword}
-      />
-
-      <TouchableOpacity style={estilos.botaoConfirmar} onPress={handleUpdatePassword}>
-        <Text style={estilos.textoBotaoConfirmar}>Confirmar</Text>
+    <View style={styles.containerMain}>
+      <TouchableOpacity onPress={() => router.push("/usuario")}>
+        <Ionicons name="arrow-back" size={40} color="#999" />
       </TouchableOpacity>
+      <View style={styles.containerMiddle}>
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>Redefinir Senha</Text>
+        </View>
+        <TextInput
+          style={styles.input}
+          placeholder="Senha Antiga"
+          placeholderTextColor="#999"
+          secureTextEntry
+          value={old_password}
+          onChangeText={setOldPassword}
+        />
 
+        <TextInput
+          style={styles.input}
+          placeholder="Nova Senha"
+          placeholderTextColor="#999"
+          secureTextEntry
+          value={new_password}
+          onChangeText={setNewPassword}
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Confirmar Nova Senha"
+          placeholderTextColor="#999"
+          secureTextEntry
+          value={confirm_password}
+          onChangeText={setConfirmPassword}
+        />
+
+        <TouchableOpacity style={styles.buttonStyle} onPress={handleUpdatePassword}>
+          <Text style={styles.textButton}>Confirmar</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }

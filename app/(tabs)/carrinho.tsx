@@ -1,92 +1,122 @@
-import { Ionicons } from "@expo/vector-icons"; // precisa instalar se ainda não tiver
-import React, { useState } from "react";
+import { useCart } from "@/services/contexts/cartContext";
+import { UserContext } from "@/services/contexts/userContext";
+import { removeAllItensOfCart } from "@/services/database/cartQueries";
+import { insertManyHistory } from "@/services/database/historyQueries";
+import { getAll } from "@/services/database/queries";
+import { Products } from "@/services/types/products";
+import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
+import React, { useContext, useEffect, useState } from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
-import estilos from "../../estilos/_stylesPadrao";
-
-interface ItemCarrinho {
-  id: number;
-  nome: string;
-  qtd: number;
-}
+import styles from "../../styles/_stylesPadrao";
 
 export default function Carrinho() {
-  const [carrinho, setCarrinho] = useState<ItemCarrinho[]>([
-    { id: 1, nome: "Item 1", qtd: 1 },
-    { id: 2, nome: "Item 2", qtd: 1 },
-    { id: 3, nome: "Item 3", qtd: 2 },
-    { id: 4, nome: "Item 4", qtd: 1 },
-  ]);
+  const user = useContext(UserContext);
 
-  const aumentarQtd = (id: number) => {
-    setCarrinho((itens) =>
-      itens.map((item) =>
-        item.id === id ? { ...item, qtd: item.qtd + 1 } : item
-      )
-    );
-  };
+  // 🔹 Carrinho vindo do contexto global
+  const { cart, increase, decrease, remove, fetchCart } = useCart();
 
-  const diminuirQtd = (id: number) => {
-    setCarrinho((itens) =>
-      itens.map((item) =>
-        item.id === id && item.qtd > 1
-          ? { ...item, qtd: item.qtd - 1 }
-          : item
-      )
-    );
-  };
+  const [productsAll, setProducts] = useState<Products[]>([]);
 
-  const removerItem = (id: number) => {
-    setCarrinho((itens) => itens.filter((item) => item.id !== id));
-  };
+  useEffect(() => {
+    async function load() {
+      const data = await getAll<Products>("products");
+      setProducts(data);
+    }
+    load();
+  }, []);
+
+  async function confirmarCompra(userId: number) {
+    if (cart.length === 0) {
+      alert("Nenhum item no carrinho!");
+      return;
+    }
+
+    const historicoData = cart.map((item) => ({
+      user_id: userId,
+      product_id: item.product_id,
+      description: item.amount.toString(),
+      status_id: 10,
+      loan_duration: 7,
+      date_loan: null,
+      date_return: null,
+      date_refused: null,
+    }));
+
+    const data = await insertManyHistory(historicoData);
+
+    if (data) {
+      await removeAllItensOfCart(userId); 
+      await fetchCart();
+      alert("Solicitado com sucesso!");
+      router.replace("/home");
+    } else {
+      alert("Erro ao finalizar!");
+    }
+  }
 
   return (
-    <ScrollView
-      style={estilos.container}
-      contentContainerStyle={{ paddingBottom: 20 }}
-    >
-      <Text style={estilos.titulo}>Carrinho</Text>
+    <ScrollView style={styles.containerMain}>
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Carrinho</Text>
+      </View>
 
-      {carrinho.map((item) => (
-        <View
-          key={item.id}
-          style={estilos.itemLista}
-        >
-          <Text>{item.nome} - Qtd: {item.qtd}</Text>
+      <View style={styles.contentContainerCentered}>
+        {cart.length === 0 ? (
+          <Text style={{ textAlign: "center", color: "gray", marginTop: 20 }}>
+            Nenhum item no carrinho
+          </Text>
+        ) : (
+          cart.map((item) => {
+            const product = productsAll.find((p) => p.id === item.product_id);
+            return (
+              <View key={item.id} style={styles.listItens}>
+                <Text style={styles.itemTexto}>
+                  {product?.name ?? "Produto desconhecido"} - Qtd: {item.amount}
+                </Text>
 
-          <View style={estilos.botoesMaisMenosLixeira}>
-            {/* Botão - */}
-            <TouchableOpacity
-              onPress={() => diminuirQtd(item.id)}
-              style={estilos.botaoMaisMenos}
-            >
-              <Ionicons name="remove-circle" size={22} color="gray" />
-            </TouchableOpacity>
+                <View style={styles.buttonsCarts}>
+                  {/* Diminuir */}
+                  <TouchableOpacity
+                    onPress={() => decrease(item.product_id)}
+                    style={styles.buttonsMoreLess}
+                  >
+                    <Ionicons name="remove-circle" size={22} color="gray" />
+                  </TouchableOpacity>
 
-            {/* Botão + */}
-            <TouchableOpacity
-              onPress={() => aumentarQtd(item.id)}
-              style={estilos.botaoMaisMenos}
-            >
-              <Ionicons name="add-circle" size={22} color="gray" />
-            </TouchableOpacity>
+                  {/* Aumentar */}
+                  <TouchableOpacity
+                    onPress={() => increase(item.product_id)}
+                    style={styles.buttonsMoreLess}
+                  >
+                    <Ionicons name="add-circle" size={22} color="gray" />
+                  </TouchableOpacity>
 
-            {/* Botão Lixeira */}
-            <TouchableOpacity
-              onPress={() => removerItem(item.id)}
-              style={estilos.botaoLixeira}
-            >
-              <Ionicons name="trash" size={22} color="red" />
-            </TouchableOpacity>
-          </View>
-        </View>
-      ))}
+                  {/* Remover */}
+                  <TouchableOpacity
+                    onPress={() => remove(item.product_id)}
+                    style={styles.buttonTrash}
+                  >
+                    <Ionicons name="trash" size={15} color="white" />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            );
+          })
+        )}
 
-      <TouchableOpacity
-        style={estilos.botaoConfirmar}
-        onPress={() => alert("Confirmado!")}
-      >
-        <Text style={estilos.textoBotaoConfirmar}>Confirmar</Text>
-      </TouchableOpacity>
+        {cart.length > 0 && (
+          <TouchableOpacity
+            style={styles.buttonStyle}
+            onPress={async () => {
+              await confirmarCompra(user.user!.id);
+              await fetchCart();
+            }}
+          >
+            <Text style={styles.textButton}>Confirmar</Text>
+          </TouchableOpacity>
+        )}
+      </View>
     </ScrollView>
   );
 }

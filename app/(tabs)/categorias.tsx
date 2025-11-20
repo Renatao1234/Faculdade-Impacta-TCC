@@ -1,63 +1,67 @@
 import { getAll } from "@/services/database/queries";
-import { Categorie } from "@/services/types/categories";
+import { Categories } from "@/services/types/categories";
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
-import estilos from "../../estilos/_stylesPadrao";
+import styles from "../../styles/_stylesPadrao";
 
 interface Categoria {
   nome: string;
   imagem?: string;
 }
-{/*Exemplos de categoria*/}
+{/*Exemplos de categoria*/ }
 export default function Categorias() {
 
-  const [categoreisAll, setCategories] = useState<Categorie[]>([]);
+  const [categoreisAll, setCategories] = useState<Categories[]>([]);
 
   useEffect(() => {
     async function fetchData() {
       const data = await getAll("categories");
       // console.log("Dados retornados do banco:", data); // <-- Adicione isto
 
-      if (data) setCategories(data as Categorie[]);
+      if (data) setCategories(data as Categories[]);
     }
     fetchData();
   }, []);
 
   return (
     <ScrollView
-      style={estilos.container}
-      contentContainerStyle={{ alignItems: "center", paddingBottom: 10 }}
+      style={styles.containerMain}
+      contentContainerStyle={styles.contentContainerCentered}
     >
-      <Text style={estilos.titulo}>Categorias</Text>
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Categorias</Text>
+      </View>
 
-      {categoreisAll.map((categoria, indice) => (
-        <TouchableOpacity
-          key={indice}
-          style={estilos.categoria}
-          onPress={() =>
-            router.push({
-              pathname: "/componentes",
-              params: { nome: categoria.name, id: categoria.id.toString() },
-            })
-          }
-        >
-          <View style={estilos.categoriaSemImagem}>
-              <Text style={estilos.categoriaSemImagemTexto}>
+      <View style={styles.containerCardsHome}>
+        {categoreisAll.map((categoria, indice) => (
+          <TouchableOpacity
+            key={indice}
+            style={styles.containerCategories}
+            onPress={() =>
+              router.push({
+                pathname: "/componentes",
+                params: { nome: categoria.name, id: categoria.id.toString() },
+              })
+            }
+          >
+            <View>
+              <Text style={styles.categorieText}>
                 {categoria.name}
               </Text>
             </View>
-          {/* {categoria.description ? (
+            {/* {categoria.description ? (
             <Image
               source={{ uri: categoria.description }}
-              style={estilos.imagemCategoria}
+              style={styles.imagemCategoria}
               resizeMode="contain"
             />
           ) : (
             
           )} */}
-        </TouchableOpacity>
-      ))}
+          </TouchableOpacity>
+        ))}
+      </View>
     </ScrollView>
   );
 }

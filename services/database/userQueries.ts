@@ -1,9 +1,9 @@
-import type { User } from "@/services/types/users";
+import type { Users } from "@/services/types/users";
 import bcrypt from "bcryptjs";
 import { update } from "./queries";
 import { supabase } from "./supabaseClient";
 
-export async function insertUser(values: Omit<User, "id">): Promise<User> {
+export async function insertUser(values: Omit<Users, "id">): Promise<Users> {
   // Gera hash da senha
   const salt = bcrypt.genSaltSync(10);
   const hashedPassword = bcrypt.hashSync(values.password, salt);
@@ -16,14 +16,14 @@ export async function insertUser(values: Omit<User, "id">): Promise<User> {
     .select()
     .single();
   if (error) throw error;
-  return data as User;
+  return data as Users;
 }
 
-export async function getByEmail<T>(email: string): Promise<T | null> {
+export async function getByEmailOrUsername<T>(email: string, username: string): Promise<T | null> {
   const { data, error } = await supabase
     .from("users")
     .select("*")
-    .eq("email", email)
+    .or(`email.eq.${email},username.eq.${username}`)
     .maybeSingle();
 
   if (error) throw error;
@@ -31,13 +31,13 @@ export async function getByEmail<T>(email: string): Promise<T | null> {
 }
 
 export async function existingUser<T>(
-  email: string,
+  emailOrUsername: string,
   password: string
 ): Promise<T | null> {
   const { data, error } = await supabase
     .from("users")
     .select("*")
-    .eq("email", email)
+    .or(`email.eq.${emailOrUsername},username.eq.${emailOrUsername}`)
     .maybeSingle();
   if (error) throw error;
   if (!data) return null;

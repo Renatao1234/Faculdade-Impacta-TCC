@@ -12,6 +12,11 @@ const styles = StyleSheet.create({
     height: 250, 
     resizeMode: "cover",
   },
+  // Cadastro
+  erroInputs: {
+    borderColor: "red", 
+    borderWidth: 2,
+  },
   // Estilos para tabs
   iconeMenu: {
     width: 24,
@@ -521,7 +526,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
 
-  // Relatório de Produtos
+  // Relatório de Itens
   tableRow: {
     flexDirection: "row",
     paddingVertical: 10,

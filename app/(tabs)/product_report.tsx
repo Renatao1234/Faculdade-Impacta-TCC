@@ -27,7 +27,7 @@ export default function ProductReport() {
             contentContainerStyle={{ paddingBottom: 30 }}
         >
             <View style={styles.header}>
-                <Text style={styles.headerTitle}>Relatório de Produtos</Text>
+                <Text style={styles.headerTitle}>Relatório de Itens</Text>
             </View>
 
             <TouchableOpacity style={styles.buttonExcel } onPress={() => exportToExcel(productsAll)}>

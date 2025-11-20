@@ -118,7 +118,7 @@ export default function Layout() {
         name="product_report"
         options={{
           tabBarLabel: () => (
-            <Text style={{fontSize: 12, flexWrap: "wrap", textAlign: "center", color: "#fff"}}>Relatório Produtos</Text>
+            <Text style={{fontSize: 12, flexWrap: "wrap", textAlign: "center", color: "#fff"}}>Relatório Itens</Text>
           ),
           href: user.user?.type === "admin" ? undefined : null,
           tabBarIcon: () => (

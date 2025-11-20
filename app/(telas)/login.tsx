@@ -47,14 +47,14 @@ export default function LoginScreen() {
           </View>
           <TextInput
             style={styles.input}
-            placeholder="E-mail - admin" //Apagar admin
+            placeholder="E-mail ou Usuário" //Apagar admin
             placeholderTextColor="#999"
             onChangeText={setEmailOrUsername}
             value={emailOrUsername}
           />
           <TextInput
             style={styles.input}
-            placeholder="Senha - 1234" //Apagar senha
+            placeholder="Senha" //Apagar senha
             placeholderTextColor="#999"
             onChangeText={setPassword}
             secureTextEntry

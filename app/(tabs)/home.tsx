@@ -13,7 +13,7 @@ export default function Home() {
     { title: "Histórico", icon: require("../../assets/images/relatorio.png"), route: "/historico", type: "user" },
     { title: "Categorias", icon: require("../../assets/images/componente.png"), route: "/categorias", type: "" },
     { title: "Carrinho", icon: require("../../assets/images/carrinho.png"), route: "/carrinho", type: "user" },
-    { title: "Relatório de Produtos", icon: require("../../assets/images/relatorio.png"), route: "/product_report", type: "admin" },
+    { title: "Relatório de Itens", icon: require("../../assets/images/relatorio.png"), route: "/product_report", type: "admin" },
     { title: "Gerenciar Solicitações", icon: require("../../assets/images/pasta.png"), route: "/product_controller", type: "admin" },
   ];
 

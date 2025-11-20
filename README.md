@@ -80,4 +80,5 @@ O projeto integra o Trabalho de Conclusão de Curso e aborda:
 ## 🎓 Curso
 Ciências da Computação
 
-<img src="assets/images/logoreadme.png" width="150"/>
+## ® Logo
+<img src="assets/images/logoReadme.png" width="400"/>

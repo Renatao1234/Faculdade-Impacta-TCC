@@ -13,9 +13,14 @@ export default function Cadastro() {
   const [email, setEmail] = useState<string>("");
   const [senha, setSenha] = useState<string>("");
   const [confirmar, setConfirmar] = useState<string>("");
+  const [erro, setErro] = useState("");
   const router = useRouter();
 
   const handleCadastro = async () => {
+    if( !senha.trim() || !confirmar.trim() || !nome.trim() || !email.trim()){
+      setErro("Campos obrigatórios.");
+      return;
+    }
     if (senha !== confirmar) {
       alert("Senhas não coincidem!");
       return;
@@ -52,13 +57,14 @@ export default function Cadastro() {
       <View style={styles.containerMiddle}>
         <View style={styles.header}>
           <Text style={styles.headerTitle}>Cadastro</Text>
-        </View>
-        <TextInput style={styles.input} placeholder="Nome Completo" placeholderTextColor="#999" value={nome} onChangeText={setNome} />
+          {erro ? <Text style={{ color: "red" }}>{erro}</Text> : null}
+        </View>        
+        <TextInput style={[styles.input, erro ? styles.erroInputs : {}]} placeholder="Nome Completo*" placeholderTextColor="#999" value={nome} onChangeText={setNome} />
         <TextInput style={styles.input} placeholder="Matrícula" placeholderTextColor="#999" value={matricula} onChangeText={setMatricula} />
         <TextInput style={styles.input} placeholder="Usuário" placeholderTextColor="#999" value={username} onChangeText={setUserName} />
-        <TextInput style={styles.input} placeholder="E-mail" placeholderTextColor="#999" value={email} onChangeText={setEmail} />
-        <TextInput style={styles.input} placeholder="Senha" placeholderTextColor="#999" value={senha} onChangeText={setSenha} secureTextEntry />
-        <TextInput style={styles.input} placeholder="Confirmar Senha" placeholderTextColor="#999" value={confirmar} onChangeText={setConfirmar} secureTextEntry />
+        <TextInput style={[styles.input, erro ? styles.erroInputs : {}]} placeholder="E-mail*" placeholderTextColor="#999" value={email} onChangeText={setEmail} />
+        <TextInput style={[styles.input, erro ? styles.erroInputs : {}]} placeholder="Senha*" placeholderTextColor="#999" value={senha} onChangeText={setSenha} secureTextEntry />
+        <TextInput style={[styles.input, erro ? styles.erroInputs : {}]} placeholder="Confirmar Senha*" placeholderTextColor="#999" value={confirmar} onChangeText={setConfirmar} secureTextEntry />
 
         <TouchableOpacity style={styles.buttonConfirmar} onPress={handleCadastro}>
           <Text style={styles.buttonConfirmarExitText}>Confirmar</Text>
